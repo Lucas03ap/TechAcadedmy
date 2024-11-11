@@ -1,0 +1,258 @@
+/* Reset básico para garantir consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis de cores */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #FFC107;
+    --neutral-light: #F4F4F4;
+    --neutral-dark: #333333;
+}
+
+/* Estilos globais */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--neutral-dark);
+    background-color: var(--neutral-light);
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabeçalho e navegação */
+header {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 5px 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--secondary-color);
+}
+
+/* Seção Hero */
+.hero {
+    background-image: url('https://images.pexels.com/photos/10643469/pexels-photo-10643469.jpeg?'); 
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s forwards;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    animation: fadeInUp 1s forwards;
+}
+
+.hero .btn {
+    text-decoration: none;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    animation: fadeIn 1.5s forwards;
+}
+
+.hero .btn:hover {
+    background-color: #e0a800;
+}
+
+/* Conteúdo principal */
+main {
+    padding: 40px 20px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+section p {
+    font-size: 1.1em;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+/* Cards */
+.courses {
+    display: flex;
+    flex-wrap: wrap; /* Faz com que os cards fiquem lado a lado */
+    justify-content: space-around; /* Distribui os cards com espaço entre eles */
+    padding: 20px;
+}
+
+.course-card {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 300px;
+    height: 400px;
+    margin: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: flex-end;
+    color: #fff;
+    position: relative;
+    flex-grow: 1;
+}
+
+.course-card .content {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro/transparente para o texto */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.course-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.course-card p {
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+
+.course-card .btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.course-card .btn:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .courses {
+        flex-direction: column; /* caso a tela seja pequena, os cards ficam um em cima do outro */
+        align-items: center;
+    }
+}
+
+
+
+/* Rodapé */
+footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Animações */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .hero h2 {
+        font-size: 2.5em;
+    }
+
+    .hero p {
+        font-size: 1.2em;
+    }
+
+    .course-card {
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
