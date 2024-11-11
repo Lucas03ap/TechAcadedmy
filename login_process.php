@@ -17,20 +17,18 @@ $sql = "SELECT * FROM usuarios WHERE email = '$email'";
 $result = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($result);
 
+// Caso o login seja bem-sucedido
 if ($user) {
-    //validar a senha(password_verify)
     if (password_verify($senha, $user['senha'])) {
         $_SESSION['user_id'] = $user['id_usuario'];
         $_SESSION['nome'] = $user['nome'];
-        //Como Teste de Sucesso.   Caso o login seja efetuado com sucesso, o sistema deve redirecionar para a pagina inicial do google
-        header("Location: https://www.google.com");
+        $_SESSION['tipo_usuario'] = $user['tipo_usuario']; // Armazena o tipo do usuário (aluno ou professor)
+        header("Location: painel.html");
         exit();
     } else {
         header("Location: login.html?error=senha");
         exit();
     }
-} else {
-    header("Location: login.html?error=email");
-    exit();
 }
+
 ?>

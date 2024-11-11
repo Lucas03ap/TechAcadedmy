@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Tech Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="anonymous">
+    <link rel="stylesheet" href="styles.css" media="screen">
+    <script>
+        // Função para obter o nome do usuário e tipo via AJAX
+        function carregarNomeUsuario() {
+            fetch('get_user_name.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('saudacao-usuario').innerText = `Olá, ${data.nome}!`;
+
+                        // Exibe o botão correto com base no tipo de usuário
+                        const navMenu = document.getElementById('nav-menu');
+                        if (data.tipo_usuario === 'professor') {
+                            navMenu.innerHTML = '<li><a href="cadastrar_turma.html">Cadastrar Turma</a></li>';
+                            navMenu.innerHTML += '<li><a href="registrar_tarefa.html">Cadastrar Tarefa</a></li>';
+                        } else if (data.tipo_usuario === 'aluno') {
+                            navMenu.innerHTML = '<li><a href="enviar_tarefas.html">Enviar Tarefas</a></li>';
+                        }
+                    } else {
+                        console.error(data.message);
+                    }
+                })
+                .catch(error => console.error('Erro ao carregar nome do usuário:', error));
+        }
+
+        // Chama a função ao carregar a página
+        window.onload = carregarNomeUsuario;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administração - Tech Academy</h1>
+        <p id="saudacao-usuario">Olá, visitante!</p> <!-- Local onde o nome do usuário será exibido -->
+        <nav>
+            <ul id="nav-menu">
+                <!-- Botões serão inseridos aqui com base no tipo de usuário -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Conteúdo principal da página -->
+    </main>
+    <footer>
+        <p>&copy; 2024 Tech Academy. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

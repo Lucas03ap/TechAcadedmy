@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Turma - Tech Academy</title>
+    <link rel="stylesheet" href="styles.css" media="screen">
+    <script>
+        // Função para carregar os alunos no select
+        function carregarAlunos() {
+            fetch('get_alunos.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('alunos').innerHTML = data;
+                })
+                .catch(error => console.error('Erro ao carregar alunos:', error));
+        }
+
+        // Chama a função quando a página carrega
+        window.onload = carregarAlunos;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Administração - Tech Academy</h1>
+    </header>
+    <main>
+        <section id="cadastrar-turma">
+            <h2>Cadastrar Turma</h2>
+            <form action="cadastrar_turma.php" method="post" class="form">
+                <label for="nome-turma">Nome da Turma:</label>
+                <input type="text" id="nome-turma" name="nome-turma" placeholder="Digite o nome da turma" required>
+
+                <label for="alunos">Selecionar Alunos:</label>
+                <select id="alunos" name="alunos[]" multiple required>
+                    <!-- Alunos serão carregados aqui via JavaScript -->
+                </select>
+
+                <button type="submit" class="btn">Cadastrar Turma</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Tech Academy. Todos os direitos reservados.</p>
+    </footer>
+    <style>
+        /* Estilo para o formulário de cadastro de turma */
+.form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form label {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 15px;
+    display: block;
+}
+
+.form input[type="text"],
+.form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--neutral-dark);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.form input[type="text"]:focus,
+.form select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Estilo para o select de múltipla escolha */
+#alunos {
+    height: 150px; /* Altura para facilitar a seleção de múltiplos alunos */
+    overflow-y: auto; /* Adiciona scroll se houver muitos alunos */
+}
+
+/* Botão de cadastro */
+.form .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.form .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo específico para o título e seção de cadastro */
+section#cadastrar-turma h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+section#cadastrar-turma {
+    padding: 40px 20px;
+    background-color: var(--neutral-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste para responsividade */
+@media (max-width: 768px) {
+    .form {
+        padding: 15px;
+    }
+
+    section#cadastrar-turma h2 {
+        font-size: 1.8em;
+    }
+}
+
+    </style>
+    <script>
+        // Função para verificar o parâmetro de status na URL e exibir o alerta de sucesso
+        function verificarStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                alert('Turma cadastrada com sucesso!');
+            } else if (urlParams.get('status') === 'error') {
+                alert('Erro ao cadastrar a turma. Por favor, tente novamente.');
+            }
+        }
+    
+        // Chama a função ao carregar a página
+        verificarStatus();
+    </script>
+    
+</body>
+</html>

@@ -5,14 +5,11 @@ $db = 'bd_techy';
 $user = 'root';
 $pass = '';
 
-#cria a conexao cm o bd
+// Cria a conexão com o banco de dados
 $conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-// Verifica se a conexao deu certo
+// Verifica se a conexão foi bem-sucedida
 if (!$conn) {
-    die('Conexão com o banco de dados falhou: ' . mysqli_connect_error());
+    die('Erro de conexão: ' . mysqli_connect_error());
 }
-
-// Exibi uma mensagem de sucesso
-echo "Conexão com o banco de dados estabelecida com sucesso!";
 ?>

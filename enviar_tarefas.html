@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Tarefa - Tech Academy</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Função para carregar as tarefas disponíveis via AJAX
+        function carregarTarefas() {
+            fetch('get_tarefas.php')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('tarefa');
+                    data.forEach(tarefa => {
+                        const option = document.createElement('option');
+                        option.value = tarefa.id;
+                        option.textContent = tarefa.titulo;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar tarefas:', error));
+        }
+
+        // Carregar as tarefas assim que a página termina de carregar
+        window.onload = carregarTarefas;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Enviar Tarefa</h1>
+    </header>
+    <main>
+        <form action="processar_envio_tarefa.php" method="post" enctype="multipart/form-data">
+            <label for="tarefa">Selecionar Tarefa:</label>
+            <select id="tarefa" name="id_tarefa" required>
+                <!-- Tarefas serão carregadas aqui via JavaScript -->
+            </select>
+
+            <label for="arquivo">Enviar Arquivo:</label>
+            <input type="file" id="arquivo" name="arquivo" required>
+
+            <button type="submit">Enviar Tarefa</button>
+        </form>
+    </main>
+</body>
+<style>
+    /* Reset básico para garantir consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis de cores */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #FFC107;
+    --neutral-light: #F4F4F4;
+    --neutral-dark: #333333;
+}
+
+/* Estilos globais */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--neutral-dark);
+    background-color: var(--neutral-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo do formulário */
+form {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 20px;
+}
+
+form input[type="text"],
+form input[type="file"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--neutral-dark);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="file"]:focus,
+form select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Botão de envio */
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    form {
+        padding: 15px 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+}
+
+</style>
+</html>

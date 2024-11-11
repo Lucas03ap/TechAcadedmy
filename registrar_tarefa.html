@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Tarefa - Tech Academy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Registrar Nova Tarefa</h1>
+    </header>
+    <main>
+        <form action="processar_registro_tarefa.php" method="post">
+            <label for="titulo">Título da Tarefa:</label>
+            <input type="text" id="titulo" name="titulo" required>
+
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" required></textarea>
+
+            <label for="data_limite">Data Limite (opcional):</label>
+            <input type="date" id="data_limite" name="data_limite">
+
+            <button type="submit">Registrar Tarefa</button>
+        </form>
+    </main>
+</body>
+<script>
+    // Função para mostrar mensagem com base no status na URL
+    function mostrarMensagem() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        
+        if (status === 'success') {
+            alert('Tarefa registrada com sucesso!');
+        } else if (status === 'error') {
+            alert('Erro ao registrar tarefa. Tente novamente.');
+        }
+    }
+
+    // Chama a função ao carregar a página
+    window.onload = mostrarMensagem;
+</script>
+<style>
+    /* Reset básico para garantir consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis de cores */
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #FFC107;
+    --neutral-light: #F4F4F4;
+    --neutral-dark: #333333;
+}
+
+/* Estilos globais */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--neutral-dark);
+    background-color: var(--neutral-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo do formulário */
+form {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 20px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--neutral-dark);
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="date"]:focus,
+form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Botão de envio */
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    form {
+        padding: 15px 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+}
+
+</style>
+</html>
