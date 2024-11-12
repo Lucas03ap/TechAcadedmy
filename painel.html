@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Tech Academy</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="anonymous">
     <link rel="stylesheet" href="styles.css" media="screen">
     <script>
         // Função para obter o nome do usuário e tipo via AJAX
@@ -16,13 +15,16 @@
                     if (data.status === 'success') {
                         document.getElementById('saudacao-usuario').innerText = `Olá, ${data.nome}!`;
 
-                        // Exibe o botão correto com base no tipo de usuário
                         const navMenu = document.getElementById('nav-menu');
                         if (data.tipo_usuario === 'professor') {
                             navMenu.innerHTML = '<li><a href="cadastrar_turma.html">Cadastrar Turma</a></li>';
                             navMenu.innerHTML += '<li><a href="registrar_tarefa.html">Cadastrar Tarefa</a></li>';
                         } else if (data.tipo_usuario === 'aluno') {
                             navMenu.innerHTML = '<li><a href="enviar_tarefas.html">Enviar Tarefas</a></li>';
+                            carregarTurmasAluno(); // Carregar turmas do aluno
+                        } else if (data.tipo_usuario === 'admin') {
+                            navMenu.innerHTML = '<li><a href="ver_usuarios.html">Ver Todos os Usuários</a></li>';
+                            navMenu.innerHTML += '<li><a href="cadastrar_usuario.html">Cadastrar Usuário</a></li>';
                         }
                     } else {
                         console.error(data.message);
@@ -31,25 +33,96 @@
                 .catch(error => console.error('Erro ao carregar nome do usuário:', error));
         }
 
-        // Chama a função ao carregar a página
-        window.onload = carregarNomeUsuario;
+        // Função para carregar as turmas e tarefas do aluno
+        function carregarTurmasAluno() {
+        fetch('get_turmas_aluno.php')
+            .then(response => response.json())
+            .then(data => {
+                const main = document.querySelector('main');
+                main.innerHTML = ''; // Limpa o conteúdo principal
+
+                if (data.length === 0) {
+                    // Se o aluno não estiver inscrito em nenhuma turma
+                    const noTurmasMessage = document.createElement('p');
+                    noTurmasMessage.textContent = 'Você não está inscrito em nenhuma turma no momento.';
+                    noTurmasMessage.style.textAlign = 'center';
+                    noTurmasMessage.style.fontSize = '1.2em';
+                    noTurmasMessage.style.color = '#555';
+                    main.appendChild(noTurmasMessage);
+                } else {
+                    // Caso haja turmas, exibe as turmas e tarefas
+                    data.forEach(turma => {
+                        const turmaElement = document.createElement('div');
+                        turmaElement.classList.add('turma');
+
+                        const turmaTitle = document.createElement('h2');
+                        turmaTitle.textContent = turma.nome;
+                        turmaElement.appendChild(turmaTitle);
+
+                        // Lista de tarefas
+                        if (turma.tarefas.length > 0) {
+                            const tarefasList = document.createElement('ul');
+                            turma.tarefas.forEach(tarefa => {
+                                const tarefaItem = document.createElement('li');
+                                tarefaItem.textContent = `${tarefa.titulo} - Data Limite: ${tarefa.data_limite}`;
+                                tarefasList.appendChild(tarefaItem);
+                            });
+                            turmaElement.appendChild(tarefasList);
+                        } else {
+                            const noTarefas = document.createElement('p');
+                            noTarefas.textContent = 'Nenhuma tarefa atribuída para esta turma.';
+                            turmaElement.appendChild(noTarefas);
+                        }
+
+                        main.appendChild(turmaElement);
+                    });
+                }
+            })
+            .catch(error => console.error('Erro ao carregar turmas e tarefas:', error));
+    }
+
+    // Chama a função ao carregar a página
+    window.onload = carregarNomeUsuario;
     </script>
 </head>
 <body>
     <header>
         <h1>Administração - Tech Academy</h1>
-        <p id="saudacao-usuario">Olá, visitante!</p> <!-- Local onde o nome do usuário será exibido -->
+        <p id="saudacao-usuario">Olá, visitante!</p>
         <nav>
-            <ul id="nav-menu">
-                <!-- Botões serão inseridos aqui com base no tipo de usuário -->
-            </ul>
+            <ul id="nav-menu"></ul>
         </nav>
     </header>
     <main>
-        <!-- Conteúdo principal da página -->
+        <!-- Conteúdo das turmas e tarefas do aluno será carregado aqui -->
     </main>
     <footer>
         <p>&copy; 2024 Tech Academy. Todos os direitos reservados.</p>
     </footer>
 </body>
+<style>
+    /* Estilo para a visualização das turmas e tarefas */
+    .turma {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .turma h2 {
+        font-size: 1.5em;
+        color: #007BFF;
+        margin-bottom: 10px;
+    }
+
+    .turma ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    .turma li {
+        margin-bottom: 5px;
+    }
+</style>
 </html>

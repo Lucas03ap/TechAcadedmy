@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Tarefa - Tech Academy</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // Função para carregar as turmas disponíveis via AJAX
+        function carregarTurmas() {
+            fetch('get_turmas.php')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById('turma');
+                    data.forEach(turma => {
+                        const option = document.createElement('option');
+                        option.value = turma.id;
+                        option.textContent = turma.nome;
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar turmas:', error));
+        }
+
+        // Carrega as turmas assim que a página termina de carregar
+        window.onload = carregarTurmas;
+    </script>
 </head>
 <body>
     <header>
@@ -20,6 +40,11 @@
 
             <label for="data_limite">Data Limite (opcional):</label>
             <input type="date" id="data_limite" name="data_limite">
+
+            <label for="turma">Selecionar Turma:</label>
+            <select id="turma" name="id_turma" required>
+                <!-- Turmas serão carregadas aqui via JavaScript -->
+            </select>
 
             <button type="submit">Registrar Tarefa</button>
         </form>
@@ -39,7 +64,10 @@
     }
 
     // Chama a função ao carregar a página
-    window.onload = mostrarMensagem;
+    window.onload = function() {
+        mostrarMensagem();
+        carregarTurmas();
+    };
 </script>
 <style>
     /* Reset básico para garantir consistência */
@@ -95,6 +123,7 @@ form label {
 
 form input[type="text"],
 form input[type="date"],
+form select,
 form textarea {
     width: 100%;
     padding: 10px;
@@ -109,6 +138,7 @@ form textarea {
 
 form input[type="text"]:focus,
 form input[type="date"]:focus,
+form select:focus,
 form textarea:focus {
     border-color: var(--primary-color);
     outline: none;

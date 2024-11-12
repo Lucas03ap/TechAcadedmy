@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Usuários - Tech Academy</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function carregarUsuarios() {
+            fetch('get_usuarios.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('usuarios-table-body');
+                    data.forEach(usuario => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${usuario.id}</td>
+                            <td>${usuario.nome}</td>
+                            <td>${usuario.email}</td>
+                            <td>${usuario.tipo_usuario}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar usuários:', error));
+        }
+
+        window.onload = carregarUsuarios;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Lista de Usuários</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Tipo de Usuário</th>
+                </tr>
+            </thead>
+            <tbody id="usuarios-table-body">
+                <!-- Usuários serão carregados aqui via JavaScript -->
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
