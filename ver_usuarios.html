@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Usuários - Tech Academy</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tabela.css">
+
     <script>
         function carregarUsuarios() {
             fetch('get_usuarios.php')
                 .then(response => response.json())
                 .then(data => {
                     const tableBody = document.getElementById('usuarios-table-body');
+                    tableBody.innerHTML = ''; // Limpa o conteúdo anterior
                     data.forEach(usuario => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${usuario.id}</td>
-                            <td>${usuario.nome}</td>
-                            <td>${usuario.email}</td>
-                            <td>${usuario.tipo_usuario}</td>
+                            <td data-label="ID">${usuario.id}</td>
+                            <td data-label="Nome">${usuario.nome}</td>
+                            <td data-label="Email">${usuario.email}</td>
+                            <td data-label="Tipo de Usuário">${usuario.tipo_usuario}</td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -33,7 +35,7 @@
         <h1>Lista de Usuários</h1>
     </header>
     <main>
-        <table>
+        <table class="styled-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -46,6 +48,9 @@
                 <!-- Usuários serão carregados aqui via JavaScript -->
             </tbody>
         </table>
+        
+        <!-- Botão para voltar ao painel -->
+        <button class="botao-voltar" onclick="window.location.href='painel.html'">Voltar para o Painel</button>
     </main>
 </body>
 </html>

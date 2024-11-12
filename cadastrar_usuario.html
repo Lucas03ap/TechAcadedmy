@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Usuário - Tech Academy</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="form_styles.css">
+    <script>
+        // Função para verificar o status na URL e exibir um alerta
+        function verificarStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            if (status === 'success') {
+                alert('Usuário cadastrado com sucesso!');
+            } else if (status === 'error') {
+                const message = urlParams.get('message') || 'Erro ao cadastrar usuário. Tente novamente.';
+                alert(message);
+            }
+        }
+
+        // Chama a função quando a página carrega
+        window.onload = verificarStatus;
+    </script>
 </head>
 <body>
     <header>
@@ -33,6 +49,9 @@
 
             <button type="submit">Cadastrar Usuário</button>
         </form>
+
+        <!-- Botão de Voltar para o Painel -->
+        <button class="botao-voltar" onclick="window.location.href='painel.html'">Voltar para o Painel</button>
     </main>
 </body>
 </html>

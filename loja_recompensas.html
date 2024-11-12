@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Recompensas - Tech Academy</title>
+    <link rel="stylesheet" href="loja_recompensas.css">
+    <script>
+        function carregarPontos() {
+            fetch('get_pontos.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('pontos-atual').textContent = `Seus Pontos: ${data.pontos}`;
+                    const cuponsDiv = document.getElementById('cupons-disponiveis');
+                    data.cupons.forEach(cupom => {
+                        const cupomDiv = document.createElement('div');
+                        cupomDiv.classList.add('cupom');
+                        cupomDiv.innerHTML = `
+                            <h3>${cupom.nome}</h3>
+                            <p>${cupom.descricao}</p>
+                            <button onclick="resgatarCupom(${cupom.id}, ${cupom.pontos_custo})">Resgatar por ${cupom.pontos_custo} pontos</button>
+                        `;
+                        cuponsDiv.appendChild(cupomDiv);
+                    });
+                });
+        }
+
+        function resgatarCupom(cupomId, custoPontos) {
+            if (confirm("Tem certeza que deseja resgatar este cupom?")) {
+                fetch('resgatar_cupom.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cupomId: cupomId, custoPontos: custoPontos })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Cupom resgatado com sucesso!');
+                        location.reload(); // Recarrega a página para atualizar os pontos
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            }
+        }
+
+        window.onload = carregarPontos;
+    </script>
+</head>
+<body>
+    <button onclick="window.location.href='painel.html'" class="back-button">Voltar para o Painel</button>
+    <header>
+        <h1>Loja de Recompensas</h1>
+        <p id="pontos-atual">Seus Pontos: 0</p>
+    </header>
+    <main>
+        <section id="cupons-disponiveis">
+            <!-- Cupons serão carregados aqui -->
+        </section>
+    </main>
+</body>
+</html>
